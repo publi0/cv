@@ -10,8 +10,13 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: felipe-publio-cv.tex
-      - name: Upload PDF file
-        uses: actions/upload-artifact@v3
-        with:
-          name: PDF
-          path: felipe-publio-cv.pdf
+      - name: Commit changes
+        run: |
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "GitHub Actions"
+          git add felipe-publio-cv.pdf
+          git commit -m "Update pdf file"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
