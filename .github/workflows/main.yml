@@ -9,7 +9,7 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: cv.tex
+          root_file: felipe-publio-cv.tex
       - name: Upload PDF file
         uses: actions/upload-artifact@v3
         with:
