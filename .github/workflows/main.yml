@@ -10,13 +10,61 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: felipe-publio-cv.tex
-      - name: Commit changes
+      - name: Convert LaTeX to Markdown
+        run: |
+          sudo apt-get install -y pandoc
+          pandoc felipe-publio-cv.tex -o felipe-publio-cv.md
+      - name: Commit changes to current repository
         run: |
           git config --global user.email "no-reply@github.com"
           git config --global user.name "GitHub Actions"
-          git add felipe-publio-cv.pdf
-          git commit -m "Update pdf file"
+          git add felipe-publio-cv.pdf felipe-publio-cv.md
+          git commit -m "Update PDF and Markdown files"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Clone target repository
+        run: |
+          git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/publi0/publio.dev.git target-repo
+      - name: Copy PDF to target repository
+        run: |
+          cp felipe-publio-cv.pdf target-repo/files/
+      - name: Commit and push changes to target repository
+        run: |
+          cd target-repo
+          git config --global user.email "no-reply@github.com"
+          git config --global user.name "GitHub Actions"
+          git add files/felipe-publio-cv.pdf
+          git commit -m "Update PDF file"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: Release v1.0.0
+          draft: false
+          prerelease: false
+      - name: Upload PDF to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: felipe-publio-cv.pdf
+          asset_name: felipe-publio-cv.pdf
+          asset_content_type: application/pdf
+      - name: Upload Markdown to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: felipe-publio-cv.md
+          asset_name: felipe-publio-cv.md
+          asset_content_type: text/markdown
