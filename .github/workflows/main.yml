@@ -2,6 +2,7 @@ name: Build LaTeX document
 on: [push]
 jobs:
   build_latex:
+    name: Build LaTeX document
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
@@ -12,18 +13,17 @@ jobs:
         with:
           root_file: felipe-publio-cv.tex
 
-      - name: Convert LaTeX to Markdown
-        run: |
-          sudo apt-get install -y pandoc
-          pandoc felipe-publio-cv.tex -o felipe-publio-cv.md
-
-      - name: Commit changes to current repository
-        run: |
-          git config --global user.email "no-reply@github.com"
-          git config --global user.name "GitHub Actions"
-          git add felipe-publio-cv.pdf felipe-publio-cv.md
-          git commit -m "Update PDF and Markdown files"
-          git push
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            felipe-publio-cv.pdf
+          tag_name: v${{ github.run_number }}
+          name: Release ${{ github.run_number }}
+          body: |
+            Automated release of CV document
+            - Updated PDF version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
