@@ -7,41 +7,16 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
-
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
           root_file: felipe-publio-cv.tex
-
-      - name: Create Release
-        id: create_release
-        uses: softprops/action-gh-release@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          files: |
-            felipe-publio-cv.pdf
-          tag_name: v${{ github.run_number }}
-          name: Release ${{ github.run_number }}
-          body: |
-            Automated release of CV document
-            - Updated PDF version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Clone target repository
+          aws-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          aws-region: auto
+      - name: Upload to R2
         run: |
-          git clone https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/publi0/publio.dev.git target-repo
-
-      - name: Copy PDF to target repository
-        run: |
-          cp felipe-publio-cv.pdf target-repo/files/
-
-      - name: Commit and push changes to target repository
-        run: |
-          cd target-repo
-          git config --global user.email "no-reply@github.com"
-          git config --global user.name "GitHub Actions"
-          git add files/felipe-publio-cv.pdf
-          git commit -m "Update CV PDF"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+          aws s3 cp felipe-publio-cv.pdf s3://publio-cv/felipe-publio-cv.pdf --endpoint-url https://97f80eebd22b293bea38454d1bfcd003.r2.cloudflarestorage.com/publio-cv

@@ -1,19 +1,15 @@
 # Felipe Públio Curriculum Vitae
 
-Personal curriculum vitae with automatic PDF and Markdown generation using GitHub Actions.
+Personal curriculum vitae with automatic PDF generation using GitHub Actions.
 
 ## Available Formats
 
-- [PDF version](felipe-publio-cv.pdf)
-- [Markdown version](felipe-publio-cv.md)
-
-Latest versions are always available in the [Releases](../../releases) page.
+The latest version of the CV is always available at [https://publio.dev/cv](https://publio.dev/cv).
 
 ## Features
 
 - LaTeX-based CV with professional formatting
 - Automatic builds using GitHub Actions
-- Multi-format output (PDF and Markdown)
 - Version controlled document history
 
 ## Local Development
@@ -21,7 +17,6 @@ Latest versions are always available in the [Releases](../../releases) page.
 ### Prerequisites
 
 - LaTeX distribution (like TeX Live or MiKTeX)
-- Pandoc (for Markdown conversion)
 - Required fonts:
   - Fontin
   - Fontin Bold
@@ -31,3 +26,21 @@ Latest versions are always available in the [Releases](../../releases) page.
 ### Building Locally
 
 1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/publi0/cv.git
+   ```
+
+2. Compile the LaTeX document:
+
+   ```bash
+   pdflatex felipe-publio-cv.tex
+   ```
+
+## Contributing
+
+Feel free to open an issue or submit a pull request for any suggestions or improvements.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
