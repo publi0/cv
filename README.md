@@ -44,21 +44,3 @@ Feel free to open an issue or submit a pull request for any suggestions or impro
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-bash
-   git clone https://github.com/publi0/cv.git
-   ```
-
-2. Compile the LaTeX document:
-
-   ```bash
-   pdflatex felipe-publio-cv.tex
-   ```
-
-## Contributing
-
-Feel free to open an issue or submit a pull request for any suggestions or improvements.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
