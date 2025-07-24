@@ -16,7 +16,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          aws-region: auto
+          
       - name: Upload to R2
         run: |
           aws s3 cp felipe-publio-cv.pdf s3://publio-cv/felipe-publio-cv.pdf --endpoint-url https://97f80eebd22b293bea38454d1bfcd003.r2.cloudflarestorage.com/publio-cv
