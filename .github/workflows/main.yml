@@ -11,6 +11,10 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: felipe-publio-cv.tex
+      - name: Prepare PDF for upload
+        run: |
+          mkdir -p upload_dir
+          cp felipe-publio-cv.pdf upload_dir/
       - name: Upload to Cloudflare R2
         uses: ryand56/r2-upload-action@v1.3.2
         with:
@@ -18,5 +22,5 @@ jobs:
           r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
           r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           r2-bucket: publio-cv
-          source-dir: .
+          source-dir: upload_dir
           destination-dir: /
