@@ -12,7 +12,7 @@ jobs:
         with:
           root_file: felipe-publio-cv.tex
       - name: Upload to Cloudflare R2
-        uses: ryand56/r2-upload-action@v1.0.0
+        uses: ryand56/r2-upload-action@v1.3.2
         with:
           cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           r2_access_key_id: ${{ secrets.R2_ACCESS_KEY_ID }}
