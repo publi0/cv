@@ -11,13 +11,12 @@ jobs:
         uses: xu-cheng/latex-action@v3
         with:
           root_file: felipe-publio-cv.tex
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Upload to Cloudflare R2
+        uses: ryand56/r2-upload-action@v1.0.0
         with:
-          aws-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-          
-      - name: Upload to R2
-        run: |
-          aws s3 cp felipe-publio-cv.pdf s3://publio-cv/felipe-publio-cv.pdf --endpoint-url https://97f80eebd22b293bea38454d1bfcd003.r2.cloudflarestorage.com/publio-cv
+          cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          r2_access_key_id: ${{ secrets.R2_ACCESS_KEY_ID }}
+          r2_secret_access_key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          r2_bucket: publio-cv
+          source_dir: .
+          destination_dir: /
